@@ -1,0 +1,86 @@
+defaults:
+  - _self_
+  - override hydra/job_logging: disabled
+  - override hydra/hydra_logging: disabled
+
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
+pipeline_name: dear_r
+save_path: results/${pipeline_name}
+mode: train  # train, inference
+seed: 0
+device: cuda
+
+# wandb (optional logging)
+use_wandb: false
+wandb_group: debug
+wandb_name: ${pipeline_name}
+
+# main dataset (Rajan: aligned real/fake pairs)
+data_root: ./data
+train_real_types: ['coco', 'lsun']
+train_fake_types: ['aligned']
+val_real_types: ['coco', 'lsun']
+val_fake_types: ['ldm']
+
+# Rajan aligned-pair options
+use_inversions: true
+batched_syncing: true
+
+# diagnostic inpaint dataset (RAD channel scoring + classifier refinement)
+train_fake_inpaint_types: ['lsun_inpaint_sd']
+train_fake_inpaint_mask_types: ['lsun_inpaint_mask']
+
+# dataloader (paper setting: batch 64; RAD uses max_score_batches*inpaint_batch_size ~= 6400 images)
+batch_size: 64
+inpaint_batch_size: 64
+num_workers: 16
+
+# transform / augmentation
+transform:
+  crop_size: 96
+  resize_size: 256
+  resize_ratio: 0.75
+  norm_type: resnet
+  resize_prob: 0.2
+  jitter_prob: 0.8
+  colordist_prob: 0.2
+  cutout_prob: 0.2
+  noise_prob: 0.2
+  blur_prob: 0.5
+  cmp_prob: 0.5
+  rot90_prob: 1.0
+  no_flip: false
+  blur_sig: [0.0, 3.0]
+  cmp_method: ['cv2', 'pil']
+  cmp_qual: [30, 100]
+
+# pretrained base detector (Rajan)
+pretrain_path: checkpoints/rajan/model_best.pth
+dropout: 0.0
+
+# DEAR: dissect (RAD) + bilateral prune
+#   DEAR-r keeps the middle 40% (prune top 30% + bottom 30%).
+exclude_top_ratio: 0.3
+exclude_bottom_ratio: 0.3
+max_score_batches: 100
+
+# classifier refinement (stage 2: head only)
+num_epochs: 1000
+lr: 0.0001
+beta1: 0.9
+weight_decay: 0.0
+earlystop_patience: 5
+earlystop_delta: 0.001
+save_every: 1
+
+# inference
+test_dirname: test
+test_real_types: ['redcaps']
+test_fake_types: ['sd','Midjourney','kandinsky','playground','pixelart','lcm','flux','wuerstchen','amused','Chameleon','loki','WildRF']
+num_test_samples: null
+webp_quality: null  # 0-100
+resize_ratio: null  # 0-1

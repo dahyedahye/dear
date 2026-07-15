@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.ipynb_checkpoints/
+
+# Data and weights (downloaded separately — see README and docs/DATASET.md)
+data/
+checkpoints/
+results/
+
+# Logs / misc
+wandb/
+*.log
+.DS_Store
