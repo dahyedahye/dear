@@ -76,7 +76,7 @@ Playground, PixArt, LCM, FLUX, Wuerstchen, aMUSEd). Place under `data/test/`.
 | Benchmark | Link | Notes |
 |---|---|---|
 | **Chameleon** | https://github.com/shilinyan99/AIDE/issues/7 | place fakes under `data/test/fake/Chameleon/` |
-| **LOKI** | https://huggingface.co/datasets/bczhou/LOKI | for the **real** set, reuse Redcaps (the `real` split of [AniSundar18/LDMFakeDetect](https://huggingface.co/datasets/AniSundar18/LDMFakeDetect)) |
+| **LOKI** | https://huggingface.co/datasets/bczhou/LOKI | We use **only the `image/` subset** of `loki_media_aggregate/` (not `3D/` or `video/`), placed under `data/test/fake/loki/`. For the **real** set, reuse Redcaps (the `real` split of [AniSundar18/LDMFakeDetect](https://huggingface.co/datasets/AniSundar18/LDMFakeDetect)) |
 | **WildRF** | https://github.com/barcavia/RealTime-DeepfakeDetection-in-the-RealWorld#wildrf | place under `data/test/fake/WildRF/` |
 
 ## 4. Post-processed test set (robustness evaluation)
