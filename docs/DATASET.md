@@ -33,17 +33,36 @@ and `{stem}_mask.png` in `lsun_inpaint_mask/`.
 ## 1. Training data
 
 ### DEAR-c: Corvi training set (LSUN/COCO real + LDM fakes)
+Both DEAR-c and DEAR-r use **LSUN and COCO** as the real images. We host the
+**LSUN real** and **LDM fake** images:
 🤗 **[k-aisi-anti-deepfake/aigi-detection-ldm](https://huggingface.co/datasets/k-aisi-anti-deepfake/aigi-detection-ldm)**
 
 ```bash
 huggingface-cli download k-aisi-anti-deepfake/aigi-detection-ldm \
-    --repo-type dataset --local-dir ./aigi-detection-ldm
-# provides data/train/{real/coco, real/lsun, fake/ldm} and data/val/...
+    --repo-type dataset --local-dir ./aigi-dl
+# The image folders ship as tar archives (HF allows at most 10000 files/folder).
+mkdir -p data/train/real data/val/real data/train/fake data/val/fake
+tar xf ./aigi-dl/train_real_lsun.tar -C data/train/real/    # -> data/train/real/lsun/
+tar xf ./aigi-dl/val_real_lsun.tar   -C data/val/real/      # -> data/val/real/lsun/
+tar xf ./aigi-dl/train_fake_ldm.tar  -C data/train/fake/    # -> data/train/fake/ldm/
+tar xf ./aigi-dl/val_fake_ldm.tar    -C data/val/fake/      # -> data/val/fake/ldm/
 ```
 
+**COCO real is not re-hosted.** Download **COCO 2017 Train/Val** from the official
+site and place the images under `data/train/real/coco/` and `data/val/real/coco/`:
+👉 https://cocodataset.org/#download
+
+We used a subset of COCO 2017 (train 90k, val 10k). For exact reproduction, select
+the same images using the filename lists shipped in the aigi-detection-ldm dataset
+(`coco_train_filenames.txt`, `coco_val_filenames.txt`).
+
 ### DEAR-r: Rajan aligned training set
-The aligned real/fake pairs come from **AlignedForensics**:
-👉 https://github.com/AniSundar18/AlignedForensics/tree/master/training_code#training-set
+The aligned real/fake pairs come from **AlignedForensics**. We do not re-host them.
+Download them from the Hugging Face dataset:
+🤗 **[AniSundar18/aligned_forensic_trainingdata](https://huggingface.co/datasets/AniSundar18/aligned_forensic_trainingdata)**
+
+For download details, see the AlignedForensics repository issue:
+👉 https://github.com/AniSundar18/AlignedForensics/issues/2#issuecomment-2978110983
 
 Place the aligned fakes under `data/train/fake/aligned/` (paired by filename with
 `data/train/real/{coco,lsun}/`).
@@ -54,10 +73,10 @@ Place the aligned fakes under `data/train/fake/aligned/` (paired by filename wit
 ```bash
 huggingface-cli download k-aisi-anti-deepfake/dear-lsun-inpaint \
     --repo-type dataset --local-dir ./dear-lsun-inpaint
-# the dataset stores data/lsun_inpaint_sd/ and data/lsun_inpaint_mask/.
-# place them under data/train/fake/ :
-#   data/train/fake/lsun_inpaint_sd/
-#   data/train/fake/lsun_inpaint_mask/
+# The folders ship as tar archives (HF allows at most 10000 files/folder).
+mkdir -p data/train/fake
+tar xf ./dear-lsun-inpaint/lsun_inpaint_sd.tar   -C data/train/fake/
+tar xf ./dear-lsun-inpaint/lsun_inpaint_mask.tar -C data/train/fake/
 ```
 
 You can also regenerate this set yourself (see

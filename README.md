@@ -16,7 +16,7 @@ Official implementation of **"Dissect and Prune: Enhancing Robustness in AI-Gene
 <p align="center"><img src="assets/main_fig.png" width="92%"></p>
 
 ## 📣 News
-- **[Coming soon]** Checkpoints and datasets will be released on the Hugging Face Hub.
+- **[2026-07]** Checkpoints and datasets released on the [Hugging Face Hub](https://huggingface.co/k-aisi-anti-deepfake).
 - **[2026-07]** Code released.
 - **[2026-05]** DEAR was accepted to **ICML 2026**.
 
@@ -46,8 +46,6 @@ pip install -r requirements.txt
 ```
 
 ## 📑 Checkpoints
-> **Coming soon:** checkpoints will be uploaded to the Hugging Face Hub shortly.
-
 Download the weights into `checkpoints/`:
 ```bash
 huggingface-cli download k-aisi-anti-deepfake/dear-checkpoints --local-dir checkpoints
@@ -102,9 +100,9 @@ See **[docs/DATASET.md](docs/DATASET.md)** for the full `data/` assembly guide. 
 
 | Purpose | Source |
 |---|---|
-| **DEAR-c training** (Corvi: LSUN/COCO real + LDM fakes) | 🤗 [k-aisi-anti-deepfake/aigi-detection-ldm](https://huggingface.co/datasets/k-aisi-anti-deepfake/aigi-detection-ldm) _(coming soon)_ |
-| **DEAR-r training** (aligned real/fake pairs) | [AlignedForensics / training_code](https://github.com/AniSundar18/AlignedForensics/tree/master/training_code#training-set) |
-| **Diagnostic inpaint set** (RAD dissection) | 🤗 [k-aisi-anti-deepfake/dear-lsun-inpaint](https://huggingface.co/datasets/k-aisi-anti-deepfake/dear-lsun-inpaint) _(coming soon)_ |
+| **DEAR-c training** (LSUN + COCO real, LDM fakes) | 🤗 [k-aisi-anti-deepfake/aigi-detection-ldm](https://huggingface.co/datasets/k-aisi-anti-deepfake/aigi-detection-ldm) hosts **LSUN real + LDM fakes**. **COCO real**: [official COCO 2017](https://cocodataset.org/#download). |
+| **DEAR-r training** (aligned real/fake pairs) | 🤗 [AniSundar18/aligned_forensic_trainingdata](https://huggingface.co/datasets/AniSundar18/aligned_forensic_trainingdata). See [AlignedForensics issue #2](https://github.com/AniSundar18/AlignedForensics/issues/2#issuecomment-2978110983) for download details. |
+| **Diagnostic inpaint set** (RAD dissection) | 🤗 [k-aisi-anti-deepfake/dear-lsun-inpaint](https://huggingface.co/datasets/k-aisi-anti-deepfake/dear-lsun-inpaint) |
 | **Test set** (reproduce Table 1) | 🤗 [AniSundar18/LDMFakeDetect](https://huggingface.co/datasets/AniSundar18/LDMFakeDetect) |
 | **Wild benchmarks** (Chameleon / LOKI / WildRF) | see [docs/DATASET.md](docs/DATASET.md) |
 
